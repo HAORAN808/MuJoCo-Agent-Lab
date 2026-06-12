@@ -8,8 +8,12 @@
 [![MuJoCo](https://img.shields.io/badge/MuJoCo-3.3+-green.svg)](https://mujoco.org)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/Status-Active-brightgreen.svg)]()
+[![Author](https://img.shields.io/badge/Author-Haoran%20Han-blue.svg)](https://github.com/HAORAN808)
+[![University](https://img.shields.io/badge/University-Beijing%20Institute%20of%20Technology-red.svg)](https://www.bit.edu.cn)
 
-**一个基于LLM驱动的自主机器人实验闭环系统，实现"假设-设计-仿真-分析-迭代"的全自动研发流程**
+**An LLM-driven autonomous robot experiment closed-loop system, achieving fully automated R&D process of "Hypothesis → Design → Simulation → Analysis → Iteration"**
+
+*Designed and developed by **Haoran Han** from [Beijing Institute of Technology](https://www.bit.edu.cn)*
 
 [English](#english) | [中文](#中文)
 
