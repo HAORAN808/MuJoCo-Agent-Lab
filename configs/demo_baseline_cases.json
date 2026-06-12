@@ -1,0 +1,62 @@
+{
+  "version": "baseline-v1",
+  "description": "Executable baseline cases for the robot lab agent demo.",
+  "cases": [
+    {
+      "case_id": "nlp_press_button",
+      "entrypoint": "nlp",
+      "goal": "use the fr3 robot arm to press a button target",
+      "expected_task_type": "press",
+      "expected_tool": null,
+      "expected_trace_steps": [
+        "parse_task_description",
+        "compose_scene",
+        "build_motion_plan",
+        "run_mujoco_experiments",
+        "analyze_runs"
+      ]
+    },
+    {
+      "case_id": "nlp_peg_insert",
+      "entrypoint": "nlp",
+      "goal": "use the fr3 robot arm to insert a peg into a hole",
+      "expected_task_type": "insert",
+      "expected_tool": "peg",
+      "expected_trace_steps": [
+        "parse_task_description",
+        "compose_scene",
+        "build_motion_plan",
+        "run_mujoco_experiments",
+        "analyze_runs"
+      ]
+    },
+    {
+      "case_id": "nlp_screwdriving",
+      "entrypoint": "nlp",
+      "goal": "use the fr3 robot arm and screwdriver to work on a screw",
+      "expected_task_type": "screwdriving",
+      "expected_tool": "screwdriver",
+      "expected_trace_steps": [
+        "parse_task_description",
+        "compose_scene",
+        "build_motion_plan",
+        "run_mujoco_experiments",
+        "analyze_runs"
+      ]
+    },
+    {
+      "case_id": "nlp_tool_push",
+      "entrypoint": "nlp",
+      "goal": "use the fr3 robot arm with a spatula tool to push an object",
+      "expected_task_type": "tool_use",
+      "expected_tool": "spatula",
+      "expected_trace_steps": [
+        "parse_task_description",
+        "compose_scene",
+        "build_motion_plan",
+        "run_mujoco_experiments",
+        "analyze_runs"
+      ]
+    }
+  ]
+}

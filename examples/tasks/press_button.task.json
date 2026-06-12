@@ -1,0 +1,60 @@
+{
+  "task_id": "press_button_baseline",
+  "task_type": "press",
+  "goal": "Use the FR3 robot arm to press a button target on the table.",
+  "robot_candidates": [
+    "franka_fr3"
+  ],
+  "objects": [
+    {
+      "object_id": "button_target",
+      "role": "target",
+      "initial_position": [
+        0.59,
+        0.0,
+        0.395
+      ]
+    }
+  ],
+  "held_tool_id": null,
+  "actions": [
+    {
+      "type": "reach",
+      "target_pos": "object:button_target"
+    },
+    {
+      "type": "press",
+      "force": "nominal"
+    },
+    {
+      "type": "wait",
+      "steps": 60
+    }
+  ],
+  "workspace": "table",
+  "constraints": [
+    "Keep contact force within the simulated safe range.",
+    "Do not collide with non-target objects."
+  ],
+  "success_criteria": {
+    "primary": "button_contact_force",
+    "min_contact_steps": 80,
+    "min_force_n": 1.0
+  },
+  "experiment_variables": {
+    "approach_height": [
+      "low",
+      "nominal",
+      "high"
+    ],
+    "downforce": [
+      "light",
+      "nominal",
+      "heavy"
+    ]
+  },
+  "safety_limits": {
+    "max_speed_mps": 0.25,
+    "requires_human_confirmation": false
+  }
+}

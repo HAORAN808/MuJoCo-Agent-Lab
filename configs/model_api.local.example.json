@@ -1,0 +1,6 @@
+{
+  "protocol": "openai",
+  "base_url": "你的兼容 OpenAI 接口 base url，例如 https://your-domain/v1",
+  "model": "MiMo-V2.5-Pro",
+  "api_key": "填你的 API Key"
+}

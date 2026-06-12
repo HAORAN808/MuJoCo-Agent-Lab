@@ -1,0 +1,31 @@
+task: pick-and-place
+goal: 提升机械臂在物体位姿扰动和环境参数变化下的 pick-and-place 成功率
+variables:
+  object_offset:
+    values: [small, medium, large]
+    purpose: 测试初始位姿扰动鲁棒性
+  friction:
+    values: [low, medium, high]
+    purpose: 分析接触参数对滑落的影响
+  grasp_height_offset:
+    values: ["-2cm", "0", "+2cm"]
+    purpose: 分析抓取点高度偏差影响
+  vision_noise:
+    values: [none, light, heavy]
+    purpose: 分析感知误差影响
+  control_freq:
+    values: [normal]
+    purpose: 固定控制频率作为 baseline 条件
+metrics:
+  - success_rate
+  - failure_type
+  - trajectory_error
+  - collision_count
+  - final_distance
+failure_types:
+  grasp_miss: 夹爪闭合后未形成有效接触
+  slip: 物体抬起后脱离夹爪或高度下降
+  collision: 发生异常碰撞或碰撞次数超过阈值
+  unreachable: 规划器无法生成有效轨迹
+  unstable: 轨迹误差或动作抖动超过阈值
+  timeout: 指定步数内未完成任务

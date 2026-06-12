@@ -1,0 +1,128 @@
+{
+  "robots": [
+    {
+      "robot_id": "franka_fr3",
+      "name": "Franka FR3",
+      "dof": 7,
+      "workspace": {
+        "x_range_m": [
+          0.25,
+          0.75
+        ],
+        "y_range_m": [
+          -0.35,
+          0.35
+        ],
+        "z_range_m": [
+          0.35,
+          0.85
+        ]
+      },
+      "payload_kg": 3.0,
+      "end_effectors": [
+        "franka_hand",
+        "attached_tool"
+      ],
+      "supported_skills": [
+        "reach",
+        "grasp",
+        "lift",
+        "place",
+        "push",
+        "press",
+        "insert",
+        "tool_contact",
+        "sweep",
+        "align",
+        "release"
+      ],
+      "control_modes": [
+        "mujoco_position",
+        "task_space_ik"
+      ],
+      "safety_limits": {
+        "max_speed_mps": 0.25,
+        "max_contact_force_n": 20.0
+      }
+    },
+    {
+      "robot_id": "franka_emika_panda",
+      "name": "Franka Emika Panda",
+      "dof": 7,
+      "workspace": {
+        "x_range_m": [
+          0.25,
+          0.75
+        ],
+        "y_range_m": [
+          -0.35,
+          0.35
+        ],
+        "z_range_m": [
+          0.35,
+          0.85
+        ]
+      },
+      "payload_kg": 3.0,
+      "end_effectors": [
+        "franka_hand"
+      ],
+      "supported_skills": [
+        "reach",
+        "grasp",
+        "lift",
+        "place",
+        "push",
+        "align",
+        "release"
+      ],
+      "control_modes": [
+        "mujoco_position",
+        "task_space_ik"
+      ],
+      "safety_limits": {
+        "max_speed_mps": 0.25,
+        "max_contact_force_n": 20.0
+      }
+    },
+    {
+      "robot_id": "universal_robots_ur5e",
+      "name": "Universal Robots UR5e",
+      "dof": 6,
+      "workspace": {
+        "x_range_m": [
+          0.25,
+          0.85
+        ],
+        "y_range_m": [
+          -0.45,
+          0.45
+        ],
+        "z_range_m": [
+          0.3,
+          0.9
+        ]
+      },
+      "payload_kg": 5.0,
+      "end_effectors": [
+        "tool_mount"
+      ],
+      "supported_skills": [
+        "reach",
+        "push",
+        "press",
+        "tool_contact",
+        "sweep",
+        "align"
+      ],
+      "control_modes": [
+        "mujoco_position",
+        "task_space_ik"
+      ],
+      "safety_limits": {
+        "max_speed_mps": 0.2,
+        "max_contact_force_n": 25.0
+      }
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "tools": [
+    {
+      "tool_id": "screwdriver",
+      "function": [
+        "screw",
+        "tool_contact",
+        "press"
+      ],
+      "attachable_to": [
+        "franka_fr3",
+        "universal_robots_ur5e"
+      ],
+      "geometry": {
+        "kind": "cylinder_handle",
+        "tip": "phillips"
+      },
+      "required_force_range_n": [
+        1.0,
+        12.0
+      ]
+    },
+    {
+      "tool_id": "spatula",
+      "function": [
+        "push",
+        "sweep",
+        "tool_contact"
+      ],
+      "attachable_to": [
+        "franka_fr3",
+        "universal_robots_ur5e"
+      ],
+      "geometry": {
+        "kind": "flat_blade"
+      },
+      "required_force_range_n": [
+        0.5,
+        8.0
+      ]
+    },
+    {
+      "tool_id": "peg",
+      "function": [
+        "insert",
+        "align"
+      ],
+      "attachable_to": [
+        "franka_fr3"
+      ],
+      "geometry": {
+        "kind": "round_peg"
+      },
+      "required_force_range_n": [
+        0.5,
+        10.0
+      ]
+    }
+  ]
+}

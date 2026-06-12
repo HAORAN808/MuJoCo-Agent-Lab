@@ -1,0 +1,91 @@
+{
+  "objects": [
+    {
+      "object_id": "cube_5cm",
+      "category": "block",
+      "size_m": [
+        0.05,
+        0.05,
+        0.05
+      ],
+      "mass_kg": 0.12,
+      "interaction_zones": [
+        "top",
+        "side"
+      ],
+      "supported_tasks": [
+        "pick_place",
+        "push"
+      ]
+    },
+    {
+      "object_id": "button_target",
+      "category": "button",
+      "size_m": [
+        0.044,
+        0.044,
+        0.008
+      ],
+      "mass_kg": 0.1,
+      "interaction_zones": [
+        "top"
+      ],
+      "supported_tasks": [
+        "press"
+      ]
+    },
+    {
+      "object_id": "insertion_socket",
+      "category": "fixture",
+      "size_m": [
+        0.07,
+        0.07,
+        0.024
+      ],
+      "mass_kg": 0.45,
+      "interaction_zones": [
+        "hole_axis"
+      ],
+      "supported_tasks": [
+        "insert",
+        "assembly"
+      ]
+    },
+    {
+      "object_id": "screw_head",
+      "category": "fastener",
+      "size_m": [
+        0.036,
+        0.006
+      ],
+      "mass_kg": 0.18,
+      "interaction_zones": [
+        "slot",
+        "top"
+      ],
+      "supported_tasks": [
+        "screwdriving",
+        "tool_use"
+      ]
+    },
+    {
+      "object_id": "rect_block",
+      "category": "block",
+      "size_m": [
+        0.1,
+        0.05,
+        0.04
+      ],
+      "mass_kg": 0.16,
+      "interaction_zones": [
+        "side",
+        "top"
+      ],
+      "supported_tasks": [
+        "push",
+        "tool_use",
+        "pick_place"
+      ]
+    }
+  ]
+}

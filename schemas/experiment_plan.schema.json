@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.robot-lab-agent/schemas/experiment_plan.schema.json",
+  "title": "ExperimentPlan",
+  "type": "object",
+  "required": [
+    "plan_id",
+    "task_id",
+    "hypothesis",
+    "variables",
+    "controls",
+    "metrics",
+    "run_count"
+  ],
+  "properties": {
+    "plan_id": {
+      "type": "string"
+    },
+    "task_id": {
+      "type": "string"
+    },
+    "hypothesis": {
+      "type": "string"
+    },
+    "variables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "values"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "values": {
+            "type": "array"
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "controls": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "metrics": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "run_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "expected_result": {
+      "type": "string"
+    },
+    "risk_notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    }
+  },
+  "additionalProperties": true
+}

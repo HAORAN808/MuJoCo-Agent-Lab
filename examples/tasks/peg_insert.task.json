@@ -1,0 +1,69 @@
+{
+  "task_id": "peg_insert_baseline",
+  "task_type": "insert",
+  "goal": "Use the FR3 robot arm to insert a peg into a socket and analyze alignment failures.",
+  "robot_candidates": [
+    "franka_fr3"
+  ],
+  "objects": [
+    {
+      "object_id": "insertion_socket",
+      "role": "fixture",
+      "initial_position": [
+        0.59,
+        0.0,
+        0.395
+      ]
+    }
+  ],
+  "held_tool_id": "peg",
+  "actions": [
+    {
+      "type": "reach",
+      "target_pos": "object:insertion_socket"
+    },
+    {
+      "type": "align",
+      "axis": "vertical"
+    },
+    {
+      "type": "insert",
+      "depth_m": 0.03
+    },
+    {
+      "type": "wait",
+      "steps": 60
+    }
+  ],
+  "workspace": "table",
+  "constraints": [
+    "Keep insertion axis close to vertical.",
+    "Stop if lateral contact force exceeds threshold."
+  ],
+  "success_criteria": {
+    "primary": "peg_inserted",
+    "min_contact_steps": 80,
+    "max_lateral_error_m": 0.012
+  },
+  "experiment_variables": {
+    "lateral_offset": [
+      "centered",
+      "offset_5mm",
+      "offset_12mm"
+    ],
+    "insertion_angle": [
+      "vertical",
+      "tilted_4deg",
+      "tilted_9deg"
+    ],
+    "compliance": [
+      "stiff",
+      "nominal",
+      "soft"
+    ]
+  },
+  "safety_limits": {
+    "max_speed_mps": 0.15,
+    "requires_human_confirmation": false
+  }
+}

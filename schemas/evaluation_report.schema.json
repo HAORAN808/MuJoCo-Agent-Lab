@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.robot-lab-agent/schemas/evaluation_report.schema.json",
+  "title": "EvaluationReport",
+  "type": "object",
+  "required": [
+    "task_id",
+    "success",
+    "success_rate",
+    "sample_count",
+    "success_count",
+    "failure_count",
+    "failure_reasons"
+  ],
+  "properties": {
+    "task_id": {
+      "type": "string"
+    },
+    "success": {
+      "type": "boolean"
+    },
+    "success_rate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "sample_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "success_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "failure_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "failure_reasons": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "failure_type",
+          "count"
+        ],
+        "properties": {
+          "failure_type": {
+            "type": "string"
+          },
+          "count": {
+            "type": "integer"
+          },
+          "rate": {
+            "type": "number"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "confidence_notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "next_actions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true
+}

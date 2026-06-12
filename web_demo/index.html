@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>机器人研发实验智能体 Demo</title>
+  <link rel="stylesheet" href="styles.css?v=fr3-hand-20260514">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Demo navigation">
+      <div class="brand">
+        <div class="brand-mark">RA</div>
+        <div>
+          <h1>Robot Agent Lab</h1>
+          <p>主动实验设计闭环</p>
+        </div>
+      </div>
+      <nav>
+        <a href="#goal">输入目标 / 运行</a>
+        <a href="#design">实验设计</a>
+        <a href="#run">实验结果</a>
+        <a href="#closedLoop">闭环重试</a>
+        <a href="#memory">实验记忆</a>
+        <a href="#analysis">失败归因</a>
+        <a href="#report">实验报告</a>
+      </nav>
+      <div class="side-note">
+        <span>当前范围</span>
+        <strong>通用机械臂实验智能体</strong>
+        <small>自然语言任务描述进入统一 NLP 管线，完成任务协议化、MuJoCo 物理执行、严格评估、闭环重试和实验记忆写入。</small>
+      </div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Embodied AI Research Demo</p>
+          <h2>面向机器人研发实验的主动实验设计与具身执行闭环智能体</h2>
+        </div>
+        <div class="status-pill" id="runStatus">未运行</div>
+      </header>
+
+      <section id="goal" class="panel">
+        <div class="section-title">
+          <span>1</span>
+          <h3>输入研发目标并运行实验</h3>
+        </div>
+
+        <!-- NLP 智能管线：一键完成 -->
+        <div class="nlp-panel">
+          <div class="nlp-header">
+            <h4>NLP 智能管线 <span class="badge">推荐</span></h4>
+            <p>输入自然语言任务描述，AI 自动完成：任务解析 → 场景组装 → 实验设计 → MuJoCo 仿真 → 严格评估 → 闭环重试 → 实验记忆</p>
+          </div>
+          <div class="nlp-form">
+            <div class="nlp-row">
+              <div class="nlp-field nlp-field-grow">
+                <label for="goalInput">研发目标 / 任务描述</label>
+                <textarea id="goalInput" rows="3" placeholder="例如：用 UR5e 抓取桌上的圆柱罐并放到左侧，研究不同摩擦力对成功率的影响">研究机械臂在不同物体、接触条件和任务目标下的操作成功率、失败类型和下一轮实验改进方向</textarea>
+              </div>
+            </div>
+            <div class="nlp-row nlp-row-3">
+              <div class="nlp-field">
+                <label for="robotSelect">机器人</label>
+                <select id="robotSelect">
+                  <option value="">自动选择</option>
+                </select>
+                <div id="robotInfo" class="robot-info is-hidden">
+                  <span id="robotInfoText"></span>
+                </div>
+              </div>
+              <div class="nlp-field">
+                <label for="nlpSampleSize">实验规模</label>
+                <select id="nlpSampleSize">
+                  <option value="9">快速 9 组</option>
+                  <option value="27" selected>小规模 27 组</option>
+                  <option value="81">完整 81 组</option>
+                </select>
+              </div>
+              <div class="nlp-field">
+                <label for="outputLanguage">输出语言</label>
+                <select id="outputLanguage">
+                  <option value="zh" selected>中文</option>
+                  <option value="en">English</option>
+                </select>
+              </div>
+            </div>
+            <div class="nlp-actions">
+              <button id="nlpBtn" class="primary nlp-run-btn">一键运行 NLP 管线</button>
+              <button id="resetBtn" class="nlp-reset-btn">重置</button>
+            </div>
+            <div id="nlpProgressWrap" class="nlp-progress-wrap">
+              <div class="nlp-progress-track">
+                <div id="nlpProgressBar" class="nlp-progress-bar"></div>
+              </div>
+              <span id="nlpProgressText" class="nlp-progress-text">等待运行</span>
+            </div>
+            <input id="apiEndpoint" type="hidden" value="http://127.0.0.1:8765/api/run_experiments">
+          </div>
+          <div id="parsedTaskSpec" class="parsed-spec is-hidden">
+            <h4>任务说明</h4>
+            <pre id="parsedTaskSpecJson"></pre>
+          </div>
+          <div id="agentPipeline" class="agent-pipeline is-hidden"></div>
+        </div>
+      </section>
+
+      <details id="design" class="panel" open>
+        <summary class="section-title">
+          <span>2</span>
+          <h3>实验设计与变量空间</h3>
+        </summary>
+        <div class="design-grid">
+          <div>
+            <h4>实验假设</h4>
+            <div id="hypotheses" class="card-list"></div>
+          </div>
+          <div>
+            <h4>任务与变量</h4>
+            <div id="variables" class="variable-table"></div>
+          </div>
+        </div>
+        <div class="asset-grid">
+          <div>
+            <h4>已下载机器人/夹爪/传感器</h4>
+            <div id="robotAssets" class="asset-list"></div>
+          </div>
+          <div>
+            <h4>能力组件状态</h4>
+            <div id="taskBlueprints" class="asset-list"></div>
+          </div>
+        </div>
+      </details>
+
+      <section id="run" class="panel">
+        <div class="section-title">
+          <span>3</span>
+          <h3>实验结果</h3>
+        </div>
+        <div class="metrics">
+          <div class="metric">
+            <span>实验总数</span>
+            <strong id="mRuns">--</strong>
+          </div>
+          <div class="metric">
+            <span>总体成功率</span>
+            <strong id="mSuccess">--</strong>
+          </div>
+          <div class="metric">
+            <span>主要失败类型</span>
+            <strong id="mFailure">--</strong>
+          </div>
+          <div class="metric">
+            <span>可解释失败占比</span>
+            <strong id="mExplain">--</strong>
+          </div>
+        </div>
+        <div id="evaluationPanel" class="evaluation-panel is-hidden"></div>
+        <div class="chart-grid">
+          <div class="chart-card">
+            <h4>失败类型分布</h4>
+            <div id="failureChart" class="bar-chart"></div>
+          </div>
+          <div class="chart-card">
+            <h4>变量影响分析</h4>
+            <div id="variableChart" class="bar-chart"></div>
+          </div>
+        </div>
+        <div class="replay-card is-empty" id="replayCard">
+          <div class="replay-head">
+            <div>
+              <h4>MuJoCo 轨迹回放</h4>
+              <p id="replayMeta">运行 NLP 管线后展示真实 MuJoCo 渲染回放。</p>
+            </div>
+            <button id="replayBtn">重新播放</button>
+          </div>
+          <div class="replay-empty" id="replayEmpty">等待 MuJoCo 评测运行</div>
+          <div class="replay-pair">
+            <div class="replay-window">
+              <h5 id="replayTitleSuccess">成功样例</h5>
+              <canvas id="mujocoReplaySuccess" width="560" height="315" aria-label="MuJoCo success replay"></canvas>
+              <div class="replay-timeline"><div id="replayProgressSuccess"></div></div>
+              <strong id="replayStageSuccess">等待运行</strong>
+            </div>
+            <div class="replay-window">
+              <h5 id="replayTitleFailure">失败样例</h5>
+              <canvas id="mujocoReplayFailure" width="560" height="315" aria-label="MuJoCo failure replay"></canvas>
+              <div class="replay-timeline"><div id="replayProgressFailure"></div></div>
+              <strong id="replayStageFailure">等待运行</strong>
+            </div>
+          </div>
+          <div class="replay-legend">
+            <span><i class="legend-cube"></i>cube</span>
+            <span><i class="legend-gripper"></i>gripper</span>
+            <span><i class="legend-target"></i>target</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="closedLoop" class="panel">
+        <div class="section-title">
+          <span>4</span>
+          <h3>闭环重试</h3>
+        </div>
+        <div id="closedLoopPanel" class="closed-loop-panel is-empty">
+          <div class="empty-state">运行 NLP 管线后展示 RetryPlan、自动重试结果和前后对比。</div>
+        </div>
+      </section>
+
+      <section id="memory" class="panel">
+        <div class="section-title">
+          <span>5</span>
+          <h3>实验记忆</h3>
+        </div>
+        <div id="memoryPanel" class="memory-panel is-empty">
+          <div class="empty-state">运行 NLP 管线后展示 ExperimentStore 写入状态、历史记录数量和失败记忆统计。</div>
+        </div>
+      </section>
+
+      <section id="analysis" class="panel">
+        <div class="section-title">
+          <span>6</span>
+          <h3>失败归因与下一轮建议</h3>
+        </div>
+        <div class="analysis-grid">
+          <div>
+            <h4>关键发现</h4>
+            <div id="findings" class="card-list"></div>
+          </div>
+          <div>
+            <h4>下一轮实验建议</h4>
+            <div id="recommendations" class="card-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="report" class="panel">
+        <div class="section-title">
+          <span>7</span>
+          <h3>实验报告</h3>
+        </div>
+        <div class="report-actions">
+          <button id="reportBtn" class="primary">生成 Markdown 报告</button>
+          <button id="downloadBtn">下载报告</button>
+        </div>
+        <pre id="reportPreview" class="report-preview">请先运行 NLP 管线。</pre>
+        <h4>样例实验日志</h4>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>run_id</th>
+                <th>offset</th>
+                <th>friction</th>
+                <th>height</th>
+                <th>noise</th>
+                <th>success</th>
+                <th>failure</th>
+                <th>grip_f</th>
+                <th>slip</th>
+                <th>dist</th>
+              </tr>
+            </thead>
+            <tbody id="logRows"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js?v=fr3-hand-20260514"></script>
+</body>
+</html>

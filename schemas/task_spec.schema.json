@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.robot-lab-agent/schemas/task_spec.schema.json",
+  "title": "TaskSpec",
+  "type": "object",
+  "required": [
+    "task_id",
+    "task_type",
+    "goal",
+    "robot_candidates",
+    "objects",
+    "actions",
+    "success_criteria"
+  ],
+  "properties": {
+    "task_id": {
+      "type": "string"
+    },
+    "task_type": {
+      "type": "string",
+      "enum": [
+        "pick_place",
+        "press",
+        "insert",
+        "screwdriving",
+        "push",
+        "tool_use",
+        "assembly",
+        "general"
+      ]
+    },
+    "goal": {
+      "type": "string"
+    },
+    "robot_candidates": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "objects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "object_id",
+          "role"
+        ],
+        "properties": {
+          "object_id": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "initial_position": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "held_tool_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "reach",
+              "grasp",
+              "lift",
+              "place",
+              "push",
+              "insert",
+              "release",
+              "wait",
+              "press",
+              "rotate",
+              "sweep",
+              "align"
+            ]
+          },
+          "target_pos": {
+            "oneOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "workspace": {
+      "type": "string",
+      "default": "table"
+    },
+    "constraints": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "success_criteria": {
+      "type": "object",
+      "required": [
+        "primary"
+      ],
+      "properties": {
+        "primary": {
+          "type": "string"
+        },
+        "tolerance": {
+          "type": "number"
+        },
+        "target_position": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "experiment_variables": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array"
+      },
+      "default": {}
+    },
+    "safety_limits": {
+      "type": "object",
+      "default": {}
+    }
+  },
+  "additionalProperties": true
+}
